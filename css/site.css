@@ -28,7 +28,7 @@
     width: 40px;
     height: 40px;
 
-    border: 2px solid black;
+    border: 0.5px solid #77a2d2;
 }
 
 .rowDiv {
@@ -40,14 +40,14 @@
 }
 
 .openWater {
-    background-color: blue;
+    background-color: #256bda;
 }
 .miss {
-    background-color: gray;
+    background-color: #d5ddea;
 }
 .undamaged {
     background-color: white;
 }
 .damaged {
-    background-color: red;
+    background-color: #e83535;
 }

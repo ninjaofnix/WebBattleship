@@ -58,6 +58,7 @@ var battleShip = (function (myBattleShip){
                 var hitSomething = false;
                 
                 while(!ship) {
+                    hitSomething = false;
                     ship = '';
                     // randomly figure out if we want to rotate it, 50/50 chance
                     if(Math.random() < 0.5){
@@ -79,8 +80,8 @@ var battleShip = (function (myBattleShip){
 //                    console.log("row: " + row);
 //                    console.log("height: " + height);
 //                    console.log("max Height: " + heightMax);
-
 //                    console.log(boardPlacingOn);
+
                     sections = [];
                     for(var i = 0; i < width; i++){
                         for(var j = 0; j < height; j++){

@@ -66,7 +66,7 @@
             var boardHtml = "<div class='centered'><label> " + boardTitle + "</label></div>";
             boardHtml += "<div class='boardDiv " + boardType + "' >";
             
-            boardHtml += createBoardHeaderHtml();
+            // boardHtml += createBoardHeaderHtml();
             
             var rowHtml, rowData, columnData, classesText;
             for(var row = 0; row < numberOfRows; row++){
@@ -74,7 +74,7 @@
                 rowHtml = "<div class='rowDiv'>";
                 rowData = "data-row='" + row + "'";
                 // row number indicator
-                rowHtml += "<div class='cellDiv' >" + (row + 1) + "</div>";
+                // rowHtml += "<div class='cellDiv' >" + (row + 1) + "</div>";
                 for(var column = 0; column < numberOfColumns; column++){
                     columnData = "data-column='" + column + "'";
                     classesText = "class='cellDiv battleCell " + boardToDisplay[row][column] + "'";
@@ -96,7 +96,7 @@
             $("#playerBoard").empty();
             
             // build opponents board
-             buildABoard("Enemies Board", myBattleShip.boardTypes.enemy, currentPlayer.enemyBoard);
+             buildABoard("Enemy's Board", myBattleShip.boardTypes.enemy, currentPlayer.enemyBoard);
             // build your board
              buildABoard("Your Board", myBattleShip.boardTypes.player, currentPlayer.playerBoard);
             
