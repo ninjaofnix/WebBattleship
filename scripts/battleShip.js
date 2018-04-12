@@ -69,10 +69,11 @@
         // ---------------------------------------
         // setup functions
         // ---------------------------------------
-        function buildABoard(boardTitle, boardType, boardToDisplay) {
+        function buildABoard(boardTitle, boardType, playerColor, boardToDisplay) {
             
             // div around the whole board we are building
-            var boardHtml = "<div class='centered'><label> " + boardTitle + "</label></div>";
+            var colorStyle = "style='background-color:" + playerColor + ";'"
+            var boardHtml = "<div class='centered' " + colorStyle + " ><label> " + boardTitle + "</label></div>";
             boardHtml += "<div class='boardDiv " + boardType + "' >";
             
             var rowHtml, rowData, columnData, classesText;
@@ -103,9 +104,13 @@
             $("#playerBoard").empty();
             
             // build opponents board
-             buildABoard("Enemy's Board", myBattleShip.boardTypes.enemy, currentPlayer.enemyBoard);
-            // build your board
-             buildABoard(currentPlayer.playerName + "'s Board", myBattleShip.boardTypes.player, currentPlayer.playerBoard);
+             buildABoard("Enemy's Board", myBattleShip.boardTypes.enemy,
+                currentDefender.playerColor,
+                currentPlayer.enemyBoard);
+            // build players board
+             buildABoard(currentPlayer.playerName + "'s Board", myBattleShip.boardTypes.player,
+                currentPlayer.playerColor,
+                currentPlayer.playerBoard);
 
             updateInfoPanel();
 
@@ -200,7 +205,7 @@
             var aCloneShip, shipSection, sections;
             var aClone = Object.create(myBattleShip.Player);
 
-            aClone.init(playerToCloneFrom.playerName, numberOfRows, numberOfColumns);
+            aClone.init(playerToCloneFrom.playerName, playerToCloneFrom.playerColor, numberOfRows, numberOfColumns);
 
             aClone.firedThisTurn = playerToCloneFrom.firedThisTurn;
             aClone.shotsFired = playerToCloneFrom.shotsFired;
@@ -263,11 +268,11 @@
         function startClicked(){
             // create two players
             currentPlayer = Object.create(myBattleShip.Player);
-            currentPlayer.init("Player 1", numberOfRows, numberOfColumns);
+            currentPlayer.init("Player 1", "#73adf5", numberOfRows, numberOfColumns);
             currentPlayer.randomlyPlaceShips();
             
             currentDefender = Object.create(myBattleShip.Player);
-            currentDefender.init("Player 2", numberOfRows, numberOfColumns);
+            currentDefender.init("Player 2", "#8be674",numberOfRows, numberOfColumns);
             currentDefender.randomlyPlaceShips();
             
             hideLobby();

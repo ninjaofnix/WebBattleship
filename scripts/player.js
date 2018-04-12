@@ -145,9 +145,10 @@ var battleShip = (function (myBattleShip){
     };
     
     myBattleShip.Player = {
-        init: function(playerName, boardWidth, boardHeight) {
+        init: function(playerName, playerColor, boardWidth, boardHeight) {
             this.firedThisTurn = false;
             this.playerName = playerName;
+            this.playerColor = playerColor;
             this.boardWidth = boardWidth;
             this.boardHeight = boardHeight;
             this.shotsFired = 0;
