@@ -6,8 +6,8 @@
     display: none;
 }
 
-#playerBoard {
-    margin: 0 auto;
+.rowDiv {
+    overflow: hidden;
 }
 
 #restartGame {
@@ -16,38 +16,70 @@
 #endTurnButton {
 }
 
-.boardDiv {
-    margin: 15px;
-}
 
-.cellDiv {
-/*    display: inline-block;*/
+
+
+/* play area view specific */
+.infoColumn {
+    margin-top: 200px;
     float: left;
-
-    text-align: center;
-    width: 40px;
-    height: 40px;
-
-    border: 0.5px solid #77a2d2;
+    width: 50%;
 }
-
-.rowDiv {
-/*    clear: both;*/
-
-    overflow: hidden;
-/*    width: auto;
-*/
+.infoColumn > .rowDiv, .summaryColumn > .rowDiv {
+    margin-top: 10px;
+    margin-left: 80px;
 }
-
+#playerBoard {
+    margin: 0 auto;
+}
+.playAreaColumn {
+    float: left;
+    width: 33.33%;
+    min-width: 360px;
+}
 .openWater {
     background-color: #256bda;
 }
 .miss {
-    background-color: #d5ddea;
+    background-color: #083379;
 }
 .undamaged {
     background-color: white;
 }
 .damaged {
     background-color: #e83535;
+}
+.cellDiv {
+    float: left;
+
+    width: 40px;
+    height: 40px;
+
+    border: 0.5px solid #77a2d2;
+}
+#legend > .rowDiv {
+    margin: 15px;
+}
+
+#legend > .rowDiv > label {
+    padding: 10px;
+    float: left;
+}
+
+
+
+
+/* summary view specific */
+.summaryHeader {
+    padding: 20px;
+    text-align: center;
+}
+.summaryColumn {
+    float: left;
+    width: 50%;
+}
+.summaryRow:after {
+    content: "";
+    display: table;
+    clear: both;
 }

@@ -32,16 +32,27 @@
         };
         
         function hideBoard() {
-            if(!$("#playerBoard").hasClass("hidden")) {
-                $("#playerBoard").addClass("hidden");
+            if(!$("#playerSection").hasClass("hidden")) {
+                $("#playerSection").addClass("hidden");
             }
         };
         function showBoard() {
-            if($("#playerBoard").hasClass("hidden")) {
-                $("#playerBoard").removeClass("hidden");
+            if($("#playerSection").hasClass("hidden")) {
+                $("#playerSection").removeClass("hidden");
             }
         };
         
+        function hideSummary() {
+            if(!$("#summary").hasClass("hidden")) {
+                $("#summary").addClass("hidden");
+            }
+        };
+        function showSummary() {
+            if($("#summary").hasClass("hidden")) {
+                $("#summary").removeClass("hidden");
+            }
+        };
+
         function hideWaitRoom() {
             if(!$("#waitRoom").hasClass("hidden")) {
                 $("#waitRoom").addClass("hidden");
@@ -65,8 +76,6 @@
             // div around the whole board we are building
             var boardHtml = "<div class='centered'><label> " + boardTitle + "</label></div>";
             boardHtml += "<div class='boardDiv " + boardType + "' >";
-            
-            // boardHtml += createBoardHeaderHtml();
             
             var rowHtml, rowData, columnData, classesText;
             for(var row = 0; row < numberOfRows; row++){
@@ -100,33 +109,16 @@
             // build your board
              buildABoard("Your Board", myBattleShip.boardTypes.player, currentPlayer.playerBoard);
             
-            calculateAndSetBoardWidth();
+            updateInfoPanel();
+
             addClickToBoards();
         };
-        
-        // depricated!
-        function createBoardHeaderHtml() {
-            // builds the top row with column numbers
-            // first, wrapper around the whole row
-            var headerHtml = "<div class='rowDiv'>"; 
-            // this is an empty cell for the top corner
-            headerHtml += "<div class='cellDiv' ></div>";
-            for(var column = 0; column < numberOfColumns; column++){
-                headerHtml += "<div class='cellDiv' >" + (column + 1) +  "</div>";
-            }
-            headerHtml += "</div>"; // end row
-            return headerHtml;
-        };
-        
-        function calculateAndSetBoardWidth() {
-            // calculate how wide we want our board area to be, so that it shows up nicely
-            // in the center of the screen
-            var cellWidth = $(".cellDiv:first").outerWidth();
-            var left = parseInt( $(".boardDiv").css("marginLeft"));
-            var right = parseInt($(".boardDiv").css("marginRight"));
-            var actualNumberOfColumns = $(".rowDiv:first > .cellDiv").length;
-            var boardWitdh = (actualNumberOfColumns * cellWidth) + left + right;
-            $("#playerBoard").width(boardWitdh);
+
+        function updateInfoPanel(){
+            $("#ShotsFired").text(currentPlayer.shotsFired);
+            $("#Hits").text(currentPlayer.shotsFired - currentPlayer.misses);
+            $("#Misses").text(currentPlayer.misses);
+            $("#EnemyShipsSunk").text(currentDefender.getShipsSunkCount());
         };
         
         // ---------------------------------------
@@ -137,6 +129,7 @@
             hideBoard();
             $("#waitLabel").text(attacker.playerName + "'s turn!");
             showWaitRoom();
+            saveState();
         };
         
         function setupPlayerTurn(){
@@ -146,10 +139,63 @@
             showBoard();
         };
         
-        function someoneWon(winningPlayer, loosingPlayer){
-            alert(winningPlayer.playerName + " has TRUMPED " + loosingPlayer.playerName);
-            restartClicked();
+        function setupSummary(){
+            var shipsSunk, shipsLeft;
+            $("#winnerParagraph").text(currentPlayer.playerName + " has won at BattleShip!");
+
+            shipsSunk = currentPlayer.getShipsSunkCount();
+            shipsLeft = currentPlayer.ships.length - shipsSunk;
+
+            $("#winners_shotsFired").text(currentPlayer.shotsFired);
+            $("#winners_shipsLeftFloating").text(shipsLeft);
+            $("#winners_shipsSunk").text(shipsSunk);
+
+            shipsSunk = currentDefender.getShipsSunkCount();
+            shipsLeft = currentDefender.ships.length - shipsSunk;
+
+            $("#lossers_shotsFired").text(currentDefender.shotsFired);
+            $("#lossers_shipsLeftFloating").text(shipsLeft);
+            $("#lossers_shipsSunk").text(shipsSunk);
+        }
+
+        function someoneWon(){
+            hideBoard();
+            setupSummary();
+            showSummary();
         };
+
+        function setCookie(cname, cvalue, exdays) {
+            var expires = "";
+            if (exdays) {
+                var date = new Date();
+                date.setTime(date.getTime()+(exdays*24*60*60*1000));
+                expires = "; expires="+date.toUTCString();
+            }
+            document.cookie = cname + "=" + cvalue + expires +"; path=/";
+        }
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+
+        function saveState(){
+            var jsonPlayer = JSON.stringify(currentPlayer);
+            var jsonDefender = JSON.stringify(currentDefender);
+            setCookie("currentPlayer", jsonPlayer, 1);
+            setCookie("currentDefender", jsonDefender, 1);
+        }
         
         // ---------------------------------------
         // interaction functions
@@ -170,6 +216,7 @@
 
                 buildGameBoards();
                 $("#endTurnButton").removeAttr("disabled");
+                saveState();
                 
                 if(!currentDefender.hasShipsRemaining()){
                     someoneWon(currentPlayer, currentDefender);
@@ -211,6 +258,7 @@
             currentDefender = {};
             hideWaitRoom();
             hideBoard();
+            hideSummary();
             showLobby();
         };
         
@@ -224,7 +272,18 @@
             $("#restartGame").click(restartClicked);
             $("#endTurnButton").attr("disabled", "disabled");
             
-            showLobby();
+
+
+            var jsonPlayer;// = getCookie("currentPlayer");
+            var jsonDefender;// = getCookie("currentDefender");
+
+            if(jsonPlayer && jsonDefender){
+                currentPlayer = JSON.parse(jsonPlayer);
+                currentDefender = JSON.parse(jsonDefender);
+                showWaitRoom();
+            } else {
+                showLobby();
+            }
         };
         
         myBattleShip.createABoard = function(width, height){

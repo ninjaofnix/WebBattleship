@@ -1,27 +1,164 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
 
-<div id="menuBar">
-    <div id="menuButtons">
-        <button id="restartGame">Restart Game</button>
-        <button id="endTurnButton">End Turn</button>
-    </div>
-</div>
+<head>
+	<title>Battleship!</title>
+	<meta charset="utf-8">
+</head>
 
-<hr />
 
-<div id="lobby" class="hidden">
-    <p class="centered"><label >You are in the Lobby!  Welcome!</label></p>
-    <p class="centered"><button id="startButton">Start This Shit UP!</button></p>
-</div>
+<body>
+	<div>
+		<div id="menuBar">
+			<button id="restartGame">Restart Game</button>
+		</div>
+		<hr />
 
-<div id="waitRoom"  class="hidden"  >
-    <p class="centered"><label id="waitLabel"></label></p>
-    <p class="centered"><button id="hereButton">I'm Ready!</button></p>
-</div>
+		<div id="lobby" class="hidden">
+		    <p class="centered"><label >You are in the Lobby!  Welcome!</label></p>
+		    <p class="centered"><button id="startButton">Start The Game!</button></p>
+		</div>
 
-<div id="playerBoard"  class="hidden" >
-</div>
+		<div id="waitRoom"  class="hidden"  >
+		    <p class="centered"><label id="waitLabel"></label></p>
+		    <p class="centered"><button id="hereButton">I'm Ready!</button></p>
+		</div>
+
+		<div id="playerSection"  class="hidden" >
+			<div id="infoPanel" class="playAreaColumn">
+				<div class="infoColumn">
+					<div class="rowDiv">
+						<label>Shots Fired: </label>
+					</div>
+					<div class="rowDiv">
+						<label>Hits: </label>
+					</div>
+					<div class="rowDiv">
+						<label>Misses: </label>
+					</div>
+					<div class="rowDiv">
+						<label>Enemy Ships Sunk: </label>
+					</div>
+				</div>
+				<div class="infoColumn">
+					<div class="rowDiv">
+						<label id="ShotsFired"></label>
+					</div>
+					<div class="rowDiv">
+						<label id="Hits"></label>
+					</div>
+					<div class="rowDiv">
+						<label id="Misses"></label>
+					</div>
+					<div class="rowDiv">
+						<label id="EnemyShipsSunk"></label>
+					</div>
+				</div>
+			</div>
+
+			<div id="boardArea" class="playAreaColumn">
+			    <p class="centered"> <button id="endTurnButton">End Turn</button> </p>
+				<div id="playerBoard" ></div>
+			</div>
+
+			<div id="legend" class="playAreaColumn">
+				<div class="rowDiv">
+					<div class="openWater cellDiv"></div>
+					<label>Open Water</label>
+				</div>
+				<div class="rowDiv">
+					<div class="miss cellDiv"></div>
+					<label>Missed Shot</label>
+				</div>
+				<div class="rowDiv">
+					<div class="undamaged cellDiv"></div>
+					<label>Undamaged Ship Section</label>
+				</div>
+				<div class="rowDiv">
+					<div class="damaged cellDiv"></div>
+					<label>Hit Ship Section</label>
+				</div>
+			</div>
+		</div>
+
+		<div id="summary" class="hidden">
+			<div class="summaryHeader">
+				<p id="winnerParagraph">Someone Won!</p>
+			</div>
+			<div class="summaryRow">
+
+				<div class="summaryColumn">
+					<div class="summaryHeader">
+						<p>Your Stats</p>
+					</div>
+
+					<div class="summaryRow">
+						<div class="summaryColumn">
+							<div class="rowDiv">
+								<label>Shots Fired: </label>
+							</div>
+							<div class="rowDiv">
+								<label>Ships Left Floating: </label>
+							</div>
+							<div class="rowDiv">
+								<label>Ships Sunk: </label>
+							</div>
+						</div>
+
+						<div class="summaryColumn">
+							<div class="rowDiv">
+								<label id="winners_shotsFired">0</label>
+							</div>
+							<div class="rowDiv">
+								<label id="winners_shipsLeftFloating">0</label>
+							</div>
+							<div class="rowDiv">
+								<label id="winners_shipsSunk">0</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="summaryColumn">
+					<div class="summaryHeader">
+						<p>Enemy Stats</p>
+					</div>
+
+					<div class="summaryRow">
+						<div class="summaryColumn">
+							<div class="rowDiv">
+								<label>Shots Fired: </label>
+							</div>
+							<div class="rowDiv">
+								<label>Ships Left Floating: </label>
+							</div>
+							<div class="rowDiv">
+								<label>Ships Sunk: </label>
+							</div>
+						</div>
+
+						<div class="summaryColumn">
+							<div class="rowDiv">
+								<label id="lossers_shotsFired">0</label>
+							</div>
+							<div class="rowDiv">
+								<label id="lossers_shipsLeftFloating">0</label>
+							</div>
+							<div class="rowDiv">
+								<label id="lossers_shipsSunk">0</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+
+
+
+
+
 
 <script src="scripts/jquery-3.3.1.min.js"></script>
 <script src="scripts/battleShip.js"></script>
