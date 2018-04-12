@@ -61,21 +61,18 @@
 .infoColumn {
     float: left;
     width: 50%;
-    /*background-color: gray;*/
 }
 .infoColumn > .rowDiv, .summaryColumn > .rowDiv {
     margin-top: 10px;
     margin-left: 80px;
 }
 #playerBoard {
-    /*background-color: pink;*/
     margin: 0 auto;
 }
 #playerBoard > div.centered {
     margin: 10px 0px;
 }
 .playAreaColumn {
-    /*background-color: orange;*/
     float: left;
     //min-width: 360px;
 }

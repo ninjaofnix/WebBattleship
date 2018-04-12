@@ -4,28 +4,6 @@ var battleShip = (function (myBattleShip){
     var blockHeight = 2;
     var lineLength = 4;
 
-    function tryFindBlockSpace(boardPlacingOn, width, height, row, column){
-        var shipSection, hitSomething;
-        var sections = [];
-        for(var i = 0; i < width; i++){
-            for(var j = 0; j < height; j++){
-                if(boardPlacingOn[row + j][column + i] === myBattleShip.boardStates.openWater){
-                    shipSection = Object.create(myBattleShip.ShipSection);
-                    shipSection.init(row + j, column + i);
-                    sections.push(shipSection);
-                } else {
-                    hitSomething = true;
-                    sections = "";
-                    break;
-                }
-            }
-            if(hitSomething){
-                break;
-            }
-        }
-        return sections;
-    };
-
     function createAndPlaceShip(shipName, boardPlacingOn, boardWidth, boardHeight, width, height, addingBend) {
         var ship, sections, shipSection, row, widthMax, column, heightMax;
         var hitSomething = false;
@@ -144,6 +122,28 @@ var battleShip = (function (myBattleShip){
         return false;
     };
     
+    function tryFindBlockSpace(boardPlacingOn, width, height, row, column){
+        var shipSection, hitSomething;
+        var sections = [];
+        for(var i = 0; i < width; i++){
+            for(var j = 0; j < height; j++){
+                if(boardPlacingOn[row + j][column + i] === myBattleShip.boardStates.openWater){
+                    shipSection = Object.create(myBattleShip.ShipSection);
+                    shipSection.init(row + j, column + i);
+                    sections.push(shipSection);
+                } else {
+                    hitSomething = true;
+                    sections = "";
+                    break;
+                }
+            }
+            if(hitSomething){
+                break;
+            }
+        }
+        return sections;
+    };
+
     myBattleShip.Player = {
         init: function(playerName, playerColor, boardWidth, boardHeight) {
             this.firedThisTurn = false;
@@ -204,34 +204,23 @@ var battleShip = (function (myBattleShip){
             this.enemyBoard[row][column] = shotResult;
         },
         randomlyPlaceShips: function() {
-            
-            function TEST(number, times){
-                for(var i = 0; i < times; i++){
-                    if(Math.floor(Math.random() * number) === number){
-                        console.log("hit max number: " + number);
-                    }
-                }
-            }
-            
             // L shape (3 tall, 2 wide at boot)
             this.ships.push(createAndPlaceShip("L", this.playerBoard,
                                             this.boardWidth, this.boardHeight,
                                             1, 3, true));
 
-
-
-            // block (2x2)
-            this.ships.push(createAndPlaceShip("Block", this.playerBoard,
-                                            this.boardWidth, this.boardHeight,
-                                            blockWidth, blockHeight));
+            // // block (2x2)
+            // this.ships.push(createAndPlaceShip("Block", this.playerBoard,
+            //                                 this.boardWidth, this.boardHeight,
+            //                                 blockWidth, blockHeight));
             
-            // two lines (4x1)
-            this.ships.push(createAndPlaceShip("Line 1", this.playerBoard,
-                                            this.boardWidth, this.boardHeight,
-                                            1, lineLength));
-            this.ships.push(createAndPlaceShip("Line 2", this.playerBoard,
-                                            this.boardWidth, this.boardHeight,
-                                            1, lineLength));
+            // // two lines (4x1)
+            // this.ships.push(createAndPlaceShip("Line 1", this.playerBoard,
+            //                                 this.boardWidth, this.boardHeight,
+            //                                 1, lineLength));
+            // this.ships.push(createAndPlaceShip("Line 2", this.playerBoard,
+            //                                 this.boardWidth, this.boardHeight,
+            //                                 1, lineLength));
         }
     };
     
