@@ -181,7 +181,7 @@ var battleShip = (function (myBattleShip){
                         if(section.row === row && section.column === column){
                             section.state = myBattleShip.boardStates.damaged;
                             if(!ship.stillFloating()){
-                                $("#feedback").text("You sunk my " + ship.name + " ship!");
+                                $("#feedback").text("You sunk my " + ship.shipName + " ship!");
                             }
                             return true;
                         }

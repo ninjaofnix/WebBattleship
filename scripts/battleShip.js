@@ -218,7 +218,7 @@
                     shipSection.state = section.state;
                     sections.push(shipSection);
                 });
-                aCloneShip.init(sections);
+                aCloneShip.init(aCloneShip.shipName, sections);
                 aClone.ships.push(aCloneShip);
             });
 
