@@ -24,6 +24,7 @@
 		</div>
 
 		<div id="playerSection"  class="hidden" >
+
 			<div id="infoPanel" class="playAreaColumn">
 				<div class="infoColumn">
 					<div class="rowDiv">
@@ -53,30 +54,34 @@
 						<label id="EnemyShipsSunk"></label>
 					</div>
 				</div>
+
+				<div id="legend" class="playAreaColumn">
+					<div class="rowDiv">
+						<div class="openWater cellDiv"></div>
+						<label>Open Water</label>
+					</div>
+					<div class="rowDiv">
+						<div class="miss cellDiv"></div>
+						<label>Missed Shot</label>
+					</div>
+					<div class="rowDiv">
+						<div class="undamaged cellDiv"></div>
+						<label>Undamaged Ship Section</label>
+					</div>
+					<div class="rowDiv">
+						<div class="damaged cellDiv"></div>
+						<label>Hit Ship Section</label>
+					</div>
+				</div>
 			</div>
+
 
 			<div id="boardArea" class="playAreaColumn">
 			    <p class="centered"> <button id="endTurnButton">End Turn</button> </p>
+					<div class="centered">
+						<label id="feedback">0</label>
+					</div>
 				<div id="playerBoard" ></div>
-			</div>
-
-			<div id="legend" class="playAreaColumn">
-				<div class="rowDiv">
-					<div class="openWater cellDiv"></div>
-					<label>Open Water</label>
-				</div>
-				<div class="rowDiv">
-					<div class="miss cellDiv"></div>
-					<label>Missed Shot</label>
-				</div>
-				<div class="rowDiv">
-					<div class="undamaged cellDiv"></div>
-					<label>Undamaged Ship Section</label>
-				</div>
-				<div class="rowDiv">
-					<div class="damaged cellDiv"></div>
-					<label>Hit Ship Section</label>
-				</div>
 			</div>
 		</div>
 

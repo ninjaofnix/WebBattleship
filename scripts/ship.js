@@ -1,7 +1,8 @@
 var battleShip = (function (myBattleShip){
     
     myBattleShip.Ship = {
-        init: function(sections) {
+        init: function(shipName, sections) {
+            this.shipName = shipName;
             this.sections = sections;
         },
         stillFloating: function() {

@@ -17,25 +17,33 @@
 }
 
 
-
-
 /* play area view specific */
+#infoPanel {
+    width: 33.33%;
+}
 .infoColumn {
-    margin-top: 200px;
     float: left;
     width: 50%;
+    /*background-color: gray;*/
 }
 .infoColumn > .rowDiv, .summaryColumn > .rowDiv {
     margin-top: 10px;
     margin-left: 80px;
 }
 #playerBoard {
+    /*background-color: pink;*/
     margin: 0 auto;
 }
+#playerBoard > div.centered {
+    margin: 10px 0px;
+}
 .playAreaColumn {
+    /*background-color: orange;*/
     float: left;
-    width: 33.33%;
-    min-width: 360px;
+    //min-width: 360px;
+}
+#feedback {
+    height: 10px;
 }
 .openWater {
     background-color: #256bda;

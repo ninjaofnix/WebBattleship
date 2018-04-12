@@ -1,6 +1,8 @@
 
     var battleShip = (function (myBattleShip, $){
         
+// sans-serif, Helvetica, Arial
+
         var currentPlayer, currentDefender;
         var numberOfRows = 8;
         var numberOfColumns = 8;
@@ -67,10 +69,6 @@
         // ---------------------------------------
         // setup functions
         // ---------------------------------------
-        function addClickToBoards() {
-            $("." + myBattleShip.boardTypes.enemy + " > .rowDiv > .battleCell").click(battleCellClicked)
-        };
-        
         function buildABoard(boardTitle, boardType, boardToDisplay) {
             
             // div around the whole board we are building
@@ -107,11 +105,11 @@
             // build opponents board
              buildABoard("Enemy's Board", myBattleShip.boardTypes.enemy, currentPlayer.enemyBoard);
             // build your board
-             buildABoard("Your Board", myBattleShip.boardTypes.player, currentPlayer.playerBoard);
-            
+             buildABoard(currentPlayer.playerName + "'s Board", myBattleShip.boardTypes.player, currentPlayer.playerBoard);
+
             updateInfoPanel();
 
-            addClickToBoards();
+            $("." + myBattleShip.boardTypes.enemy + " > .rowDiv > .battleCell").click(battleCellClicked);
         };
 
         function updateInfoPanel(){
@@ -124,10 +122,10 @@
         // ---------------------------------------
         // game logic functions
         // ---------------------------------------
-        function displayTurnStart(attacker, defender){
+        function displayTurnStart(){
             // display interface to wait for a player to start their turn
             hideBoard();
-            $("#waitLabel").text(attacker.playerName + "'s turn!");
+            $("#waitLabel").text(currentPlayer.playerName + "'s turn!");
             showWaitRoom();
             saveState();
         };
@@ -137,6 +135,7 @@
             hideWaitRoom();
             buildGameBoards();
             showBoard();
+            $("#feedback").text("");
         };
         
         function setupSummary(){
@@ -197,6 +196,43 @@
             setCookie("currentDefender", jsonDefender, 1);
         }
         
+        function clonePlayer(playerToCloneFrom){
+            var aCloneShip, shipSection, sections;
+            var aClone = Object.create(myBattleShip.Player);
+
+            aClone.init(playerToCloneFrom.playerName, numberOfRows, numberOfColumns);
+
+            aClone.firedThisTurn = playerToCloneFrom.firedThisTurn;
+            aClone.shotsFired = playerToCloneFrom.shotsFired;
+            aClone.misses = playerToCloneFrom.misses;
+            aClone.playerBoard = playerToCloneFrom.playerBoard;
+            aClone.enemyBoard = playerToCloneFrom.enemyBoard;
+
+            aClone.ships = [];
+            playerToCloneFrom.ships.forEach(function(ship){
+                aCloneShip = Object.create(myBattleShip.Ship);
+                sections = [];
+                ship.sections.forEach(function(section){
+                    shipSection = Object.create(myBattleShip.ShipSection);
+                    shipSection.init(section.row, section.column);
+                    shipSection.state = section.state;
+                    sections.push(shipSection);
+                });
+                aCloneShip.init(sections);
+                aClone.ships.push(aCloneShip);
+            });
+
+            return aClone;
+        }
+
+        function switchPlayers(){
+            var temp = currentPlayer;
+            currentPlayer = currentDefender;
+            currentDefender = temp;
+
+            currentPlayer.firedThisTurn = false;
+        }
+
         // ---------------------------------------
         // interaction functions
         // ---------------------------------------
@@ -245,17 +281,18 @@
         
         function endTurnClicked() {
             $("#endTurnButton").attr("disabled", "disabled");
-            var temp = currentPlayer;
-            currentPlayer = currentDefender;
-            currentDefender = temp;
+            switchPlayers();
             
-            currentPlayer.firedThisTurn = false;
             displayTurnStart(currentPlayer, currentDefender);
         };
         
         function restartClicked() {
             currentPlayer = {};
             currentDefender = {};
+
+            document.cookie = "currentPlayer=; path=/";
+            document.cookie = "currentDefender=; path=/";
+
             hideWaitRoom();
             hideBoard();
             hideSummary();
@@ -271,16 +308,20 @@
             $("#endTurnButton").click(endTurnClicked);
             $("#restartGame").click(restartClicked);
             $("#endTurnButton").attr("disabled", "disabled");
-            
 
-
-            var jsonPlayer;// = getCookie("currentPlayer");
-            var jsonDefender;// = getCookie("currentDefender");
+            var jsonPlayer = getCookie("currentPlayer");
+            var jsonDefender = getCookie("currentDefender");
 
             if(jsonPlayer && jsonDefender){
-                currentPlayer = JSON.parse(jsonPlayer);
-                currentDefender = JSON.parse(jsonDefender);
-                showWaitRoom();
+                // json objects don't keep methods, so recreate our objects with methods
+                currentPlayer = clonePlayer(JSON.parse(jsonPlayer));
+                currentDefender = clonePlayer(JSON.parse(jsonDefender));
+
+                // if the player has already fired, just skip to the next persons turn
+                if(currentPlayer.firedThisTurn){
+                    switchPlayers();
+                }
+                displayTurnStart();
             } else {
                 showLobby();
             }
