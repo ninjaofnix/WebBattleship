@@ -209,18 +209,18 @@ var battleShip = (function (myBattleShip){
                                             this.boardWidth, this.boardHeight,
                                             1, 3, true));
 
-            // // block (2x2)
-            // this.ships.push(createAndPlaceShip("Block", this.playerBoard,
-            //                                 this.boardWidth, this.boardHeight,
-            //                                 blockWidth, blockHeight));
+            // block (2x2)
+            this.ships.push(createAndPlaceShip("Block", this.playerBoard,
+                                            this.boardWidth, this.boardHeight,
+                                            blockWidth, blockHeight));
             
-            // // two lines (4x1)
-            // this.ships.push(createAndPlaceShip("Line 1", this.playerBoard,
-            //                                 this.boardWidth, this.boardHeight,
-            //                                 1, lineLength));
-            // this.ships.push(createAndPlaceShip("Line 2", this.playerBoard,
-            //                                 this.boardWidth, this.boardHeight,
-            //                                 1, lineLength));
+            // two lines (4x1)
+            this.ships.push(createAndPlaceShip("Line 1", this.playerBoard,
+                                            this.boardWidth, this.boardHeight,
+                                            1, lineLength));
+            this.ships.push(createAndPlaceShip("Line 2", this.playerBoard,
+                                            this.boardWidth, this.boardHeight,
+                                            1, lineLength));
         }
     };
     
